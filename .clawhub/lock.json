@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "skills": {
+    "sonoscli": {
+      "version": "1.0.0",
+      "installedAt": 1772245287825
+    },
+    "playwright": {
+      "version": "1.0.2",
+      "installedAt": 1772245292791
+    },
+    "filesystem": {
+      "version": "1.0.0",
+      "installedAt": 1772245297679
+    },
+    "memory": {
+      "version": "1.0.2",
+      "installedAt": 1772245310065
+    },
+    "self-improving": {
+      "version": "1.2.10",
+      "installedAt": 1773049986525
+    },
+    "find-skills": {
+      "version": "0.1.0",
+      "installedAt": 1773050600379
+    },
+    "github": {
+      "version": "1.0.0",
+      "installedAt": 1773051122121
+    }
+  }
+}

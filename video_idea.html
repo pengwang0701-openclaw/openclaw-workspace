@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 数字人趋势</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Noto+Sans+SC:wght@300;400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan: #00f5ff;
+      --purple: #b44fff;
+      --blue: #0066ff;
+      --dark: #030812;
+      --card-bg: rgba(0, 20, 50, 0.6);
+      --glow-cyan: 0 0 20px rgba(0, 245, 255, 0.5);
+      --glow-purple: 0 0 20px rgba(180, 79, 255, 0.5);
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--dark);
+      color: #e0f4ff;
+      font-family: 'Noto Sans SC', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated background grid ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridScroll 20s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes gridScroll {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(60px); }
+    }
+
+    /* ── Radial glow blobs ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 15% 20%, rgba(0,102,255,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 85% 70%, rgba(180,79,255,0.10) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #root { position: relative; z-index: 1; }
+
+    /* ── Scan line overlay ── */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.15) 2px,
+        rgba(0,0,0,0.15) 4px
+      );
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* ── Layout ── */
+    .page {
+      min-height: 100vh;
+      padding: 60px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .year-badge {
+      display: inline-block;
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      color: var(--cyan);
+      border: 1px solid rgba(0,245,255,0.4);
+      padding: 6px 20px;
+      border-radius: 2px;
+      margin-bottom: 28px;
+      text-transform: uppercase;
+      position: relative;
+      animation: badgePulse 3s ease-in-out infinite;
+    }
+
+    .year-badge::before, .year-badge::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 1px;
+      background: var(--cyan);
+    }
+    .year-badge::before { right: 100%; margin-right: 8px; }
+    .year-badge::after  { left:  100%; margin-left:  8px; }
+
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(0,245,255,0.3); }
+      50%       { box-shadow: 0 0 20px rgba(0,245,255,0.7); }
+    }
+
+    .main-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(28px, 5vw, 54px);
+      font-weight: 900;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 50%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 30px rgba(0,245,255,0.35));
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: rgba(160,210,255,0.6);
+      letter-spacing: 2px;
+      font-weight: 300;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 100%;
+      max-width: 700px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+      margin-bottom: 64px;
+      opacity: 0.5;
+    }
+
+    /* ── Cards grid ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    /* ── Single card ── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(0,245,255,0.15);
+      border-radius: 4px;
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      animation: cardFadeIn 0.6s ease both;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; --accent: var(--cyan); }
+    .card:nth-child(2) { animation-delay: 0.25s; --accent: var(--purple); }
+    .card:nth-child(3) { animation-delay: 0.4s;  --accent: #ff6b6b; }
+
+    @keyframes cardFadeIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0,245,255,0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--glow-cyan);
+    }
+
+    /* Corner decorations */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 32px; height: 32px;
+      border-top: 2px solid var(--accent);
+      border-left: 2px solid var(--accent);
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 32px; height: 32px;
+      border-bottom: 2px solid var(--accent);
+      border-right: 2px solid var(--accent);
+    }
+
+    /* Card scan shimmer */
+    .card-shimmer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(0,245,255,0.03) 50%, transparent 60%);
+      background-size: 200% 200%;
+      animation: shimmer 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% 0%; }
+      100% { background-position: -200% 0%; }
+    }
+
+    .card-number {
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: #ffffff;
+      margin-bottom: 10px;
+      line-height: 1.4;
+      text-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: rgba(160,210,255,0.55);
+      margin-bottom: 28px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ── Bullet items ── */
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: rgba(200,230,255,0.8);
+      line-height: 1.6;
+    }
+
+    .bullet-dot {
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 8px;
+      box-shadow: 0 0 8px var(--accent);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.5); opacity: 0.7; }
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 80px;
+      text-align: center;
+    }
+
+    .footer-line {
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,245,255,0.3), transparent);
+      margin: 0 auto 20px;
+    }
+
+    .footer-text {
+      font-family: 'Orbitron', monospace;
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: rgba(0,245,255,0.3);
+    }
+
+    /* ── Status bar ── */
+    .status-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 28px;
+      background: rgba(0,10,30,0.8);
+      border-top: 1px solid rgba(0,245,255,0.1);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 24px;
+      z-index: 50;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Orbitron', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: rgba(0,245,255,0.4);
+    }
+
+    .status-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: dotPulse 1.5s ease-in-out infinite;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .page { padding: 40px 16px 60px; }
+      .card { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const data = {
+      title: "数字人趋势",
+      year: "2026 // DIGITAL HUMAN",
+      subtitle: "NEXT-GEN VIRTUAL PRESENCE TECHNOLOGY",
+      cards: [
+        {
+          number: "01",
+          title: "实时交互成为标配",
+          desc: "数字人不再只是「播视频」，而是能实时对话、理解上下文、做出情感回应。",
+          bullets: [
+            "延迟降到毫秒级",
+            "支持多轮对话",
+            "识别用户情绪并调整语气",
+          ],
+        },
+        {
+          number: "02",
+          title: "低成本 / 零门槛制作",
+          desc: "2026年的趋势是「人人可做数字人」。",
+          bullets: [
+            "只需 1-2 分钟视频即可克隆形象和声音",
+            "成本从万元级降到百元级",
+            "无需专业设备，手机拍摄即可",
+          ],
+        },
+        {
+          number: "03",
+          title: "多模态融合",
+          desc: "文本 + 语音 + 视觉全面升级，数字人不再只是对口型。",
+          bullets: [
+            "TTS 文本生成语音 + 口型同步",
+            "手势、表情、眼神精细控制",
+            "内容驱动情绪与动作自动匹配",
+          ],
+        },
+      ],
+    };
+
+    function BulletItem({ text, accent }) {
+      return (
+        <li className="bullet-item">
+          <span className="bullet-dot" style={{ background: accent, boxShadow: `0 0 8px ${accent}` }} />
+          <span>{text}</span>
+        </li>
+      );
+    }
+
+    function Card({ card, index }) {
+      const accents = ["var(--cyan)", "var(--purple)", "#ff6b6b"];
+      const accent = accents[index % accents.length];
+
+      return (
+        <div className="card">
+          <div className="card-shimmer" />
+          <div className="card-number">INSIGHT // {card.number}</div>
+          <div className="card-title">{card.title}</div>
+          <div className="card-desc">{card.desc}</div>
+          <ul className="bullet-list">
+            {card.bullets.map((b, i) => (
+              <BulletItem key={i} text={b} accent={accent} />
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    function StatusBar() {
+      const [time, setTime] = useState(new Date().toLocaleTimeString('zh-CN', { hour12: false }));
+
+      useEffect(() => {
+        const id = setInterval(() => setTime(new Date().toLocaleTimeString('zh-CN', { hour12: false })), 1000);
+        return () => clearInterval(id);
+      }, []);
+
+      return (
+        <div className="status-bar">
+          <div className="status-item">
+            <div className="status-dot" />
+            LIVE
+          </div>
+          <div className="status-item">SYS // {time}</div>
+          <div className="status-item">VER // 2026.03</div>
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <>
+          <div className="page">
+            <header className="header">
+              <div className="year-badge">{data.year}</div>
+              <h1 className="main-title">{data.title}</h1>
+              <p className="subtitle">{data.subtitle}</p>
+            </header>
+            <div className="divider" />
+            <div className="cards">
+              {data.cards.map((card, i) => (
+                <Card key={i} card={card} index={i} />
+              ))}
+            </div>
+            <footer className="footer">
+              <div className="footer-line" />
+              <div className="footer-text">OPENCLAW // 2026 DIGITAL HUMAN REPORT</div>
+            </footer>
+          </div>
+          <StatusBar />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

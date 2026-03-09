@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>元枢纽 Meta-Axis | RC 攀爬车周末训练营</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2980b9',
+                        'primary-dark': '#1f618d',
+                        accent: '#e67e22',
+                        'accent-light': '#f39c12',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1f2937 0%, #2980b9 100%);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #2980b9, #e67e22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold gradient-text">元枢纽 Meta-Axis</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="text-gray-600 hover:text-primary transition">关于课程</a>
+                    <a href="#ef-core" class="text-gray-600 hover:text-primary transition">EF-Core</a>
+                    <a href="#curriculum" class="text-gray-600 hover:text-primary transition">课程体系</a>
+                    <a href="#contact" class="bg-accent text-white px-6 py-2 rounded-full hover:bg-accent-light transition">立即报名</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg min-h-screen flex items-center pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center text-white">
+                <div class="inline-block bg-accent/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+                    <span class="text-accent-light font-semibold">教育部白名单赛事</span>
+                </div>
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                    RC 攀爬车<br>
+                    <span class="text-accent">周末训练营</span>
+                </h1>
+                <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                    基于脑科学的 EF-Core 执行功能训练体系<br>
+                    从科普入门到竞技精通的完整成长路径
+                </p>
+                <div class="flex justify-center gap-4">
+                    <a href="#contact" class="bg-accent text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-accent-light transition">
+                        免费体验课
+                    </a>
+                    <a href="#curriculum" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-primary transition">
+                        了解课程
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">您的孩子是否面临这些挑战？</h2>
+                <p class="text-xl text-gray-600">这些问题的根源不是意志力薄弱，而是<span class="text-accent font-semibold">"操作系统"</span>需要升级</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card-hover bg-gray-50 p-8 rounded-2xl">
+                    <div class="text-4xl mb-4">⏰</div>
+                    <h3 class="text-xl font-bold mb-3">拖延与时间管理困难</h3>
+                    <p class="text-gray-600">做作业拖拖拉拉，总是最后一刻才开始</p>
+                </div>
+                <div class="card-hover bg-gray-50 p-8 rounded-2xl">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold mb-3">注意力不集中</h3>
+                    <p class="text-gray-600">容易分心，难以专注完成任务</p>
+                </div>
+                <div class="card-hover bg-gray-50 p-8 rounded-2xl">
+                    <div class="text-4xl mb-4">📚</div>
+                    <h3 class="text-xl font-bold mb-3">组织能力差</h3>
+                    <p class="text-gray-600">书包和书桌杂乱无章，经常找不到东西</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EF-Core -->
+    <section id="ef-core" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">元枢纽 EF-Core</h2>
+                <p class="text-xl text-gray-600">大脑如电脑，智力是硬件，EF-Core 是操作系统</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border-t-4 border-primary">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="text-xl font-bold mb-3 text-primary">任务启动</h3>
+                    <p class="text-gray-600">克服拖延，立即开始</p>
+                </div>
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border-t-4 border-accent">
+                    <div class="text-4xl mb-4">⏱️</div>
+                    <h3 class="text-xl font-bold mb-3 text-accent">时间体感</h3>
+                    <p class="text-gray-600">校准主观时间与客观时间</p>
+                </div>
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border-t-4 border-primary">
+                    <div class="text-4xl mb-4">📐</div>
+                    <h3 class="text-xl font-bold mb-3 text-primary">空间管理</h3>
+                    <p class="text-gray-600">结构化整理，减少认知负荷</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum -->
+    <section id="curriculum" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">10期周末训练营</h2>
+                <p class="text-xl text-gray-600">从科普到竞技的完整成长路径</p>
+            </div>
+            <div class="space-y-12">
+                <div class="bg-blue-50 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold text-primary mb-4">第1-3期：系统重构期</h3>
+                    <p class="text-gray-600">建立认知 · 规范操作 · 空间规划</p>
+                </div>
+                <div class="bg-orange-50 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold text-accent mb-4">第4-7期：技能内化期</h3>
+                    <p class="text-gray-600">专注训练 · 团队协作 · 工程思维</p>
+                </div>
+                <div class="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 text-white">
+                    <h3 class="text-2xl font-bold mb-4">第8-10期：独立运行期 + 元枢纽杯锦标赛</h3>
+                    <p>赛事备战 · 全维实战 · 冠军传承</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-20 gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-6">立即报名</h2>
+            <p class="text-xl mb-8">扫码咨询 · 免费体验课预约</p>
+            <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+                    <div class="text-3xl mb-2">📅</div>
+                    <h4 class="font-bold">课程周期</h4>
+                    <p class="text-sm text-gray-300">10期，每期1天</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+                    <div class="text-3xl mb-2">👶</div>
+                    <h4 class="font-bold">适合年龄</h4>
+                    <p class="text-sm text-gray-300">6-15岁</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+                    <div class="text-3xl mb-2">👥</div>
+                    <h4 class="font-bold">班级规模</h4>
+                    <p class="text-sm text-gray-300">8-12人小班</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-2xl font-bold mb-4">元枢纽 Meta-Axis</h3>
+            <p class="text-gray-400 mb-4">重构心智中枢 · 掌舵未来航向</p>
+            <p class="text-gray-500 text-sm">© 2026 元枢纽 Meta-Axis. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
